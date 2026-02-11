@@ -1,28 +1,93 @@
-<div class="card card-body m-4 p-4 shadow">
-  <h3>Cadastro de clientes</h3>
-  <p>Preencha os campos do formulário</p>
+<div class="row m-4">
+  
+  <div class="col-md-3">
+    <div class="card card-body m-1 p-3 shadow">
+      <h3>Cadastro de clientes</h3>
+      <p>Preencha os campos do formulário</p>
 
-  <form [formGroup]="formulario" (ngSubmit)="cadastrar()"> <!-- Estou linkando com as paginas e funções do app.ts  -->
+      <form [formGroup]="formCadastro" (ngSubmit)="cadastrar()">
+        <!-- Estou linkando com as paginas e funções do app.ts  -->
 
-      <div class="mb-3">
-        <label>Informe o nome:</label>
-        <input type="text" class="form-control" placeholder="Digite o nome do cliente" formControlName="nome"/>
+        <div class="mb-3">
+          <label>Informe o nome:</label>
+          <input type="text" class="form-control" placeholder="Digite o nome do cliente" formControlName="nome" />
+        </div>
+
+        <div class="mb-3">
+          <label>Informe o email:</label>
+          <input type="text" class="form-control" placeholder="Digite o email do cliente" formControlName="email" />
+        </div>
+
+        <div class="mb-3">
+          <label>Informe o telefone:</label>
+          <input type="text" class="form-control" placeholder="Digite o telefone do cliente"
+            formControlName="telefone" />
+        </div>
+
+        <div class="mb-3">
+          <input type="submit" class="btn btn-primary shadow" value="Realizar cadastro" />
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <div class="col -md-9">
+    <div class="card card-body m-1 p-3 shadow">
+      <h3>Consulta de clientes</h3>
+      <p>Pesquise os clientes cadastrados no sistema.</p>
+
+      <form [formGroup]="formConsulta" (ngSubmit)="consultar()">
+
+      <div class="row">
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Digite o nome do cliente para pesquisar"
+          formControlName="nome" />  
+        </div>
+        <div class="col">
+          <input type="submit" class="btn btn-primary shadow" value="Pesquisar" />
+        </div>
       </div>
+    
+      </form>
 
-      <div class="mb-3">
-        <label>Informe o email:</label>
-        <input type="text" class="form-control" placeholder="Digite o email do cliente" formControlName="email"/>
-      </div>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Nome do Cliente</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Cadastrado em</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
 
-      <div class="mb-3">
-        <label>Informe o telefone:</label>
-        <input type="text" class="form-control" placeholder="Digite o telefone do cliente" formControlName="telefone"/>
-      </div>
+          @for(c of clientes(); track c.id) {
+            <tr>
+              <td>{{ c.nome | uppercase }}</td>
+              <td>{{ c.email }}</td>
+              <td>{{ c.telefone }}</td>
+              <td>{{ c.dataCadastro | date : 'dd/MM/yyyy' }}</td>
+              <td>
+                <button class="btn btn-sm btn-primary me-1">Editar</button>
+                <button class="btn btn-sm btn-danger">Excluir</button>
+              </td>
+            </tr>
+          }
 
-      <div class="mb-3">
-        <input type="submit" class="btn btn-primary shadow" value="Realizar cadastro"/>
-      </div>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              Quantidade de clientes obtidos: {{ clientes().length }}</td>
+          </tr>
 
-  </form> 
+        </tfoot>
+      </table>
+
+    </div>
+  </div>  
 
 </div>
