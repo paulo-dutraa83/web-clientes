@@ -19,9 +19,11 @@
     overflow: hidden;
 
     background:
-        radial-gradient(circle at top,
+        radial-gradient(
+            circle at top,
             rgba(37, 99, 235, 0.22),
-            transparent 40%),
+            transparent 40%
+        ),
         #08111f;
 
     color: #e5e7eb;
@@ -43,7 +45,7 @@
 }
 
 /* Card */
-:host>div {
+:host > div {
     width: min(100%, 520px);
 
     padding: 30px;
@@ -92,7 +94,7 @@ form {
 }
 
 /* Grupos */
-form>div {
+form > div {
     display: flex;
     flex-direction: column;
 
@@ -166,9 +168,11 @@ input[type="submit"] {
 
     color: #ffffff;
 
-    background: linear-gradient(135deg,
-            #1d4ed8,
-            #3b82f6);
+    background: linear-gradient(
+        135deg,
+        #1d4ed8,
+        #3b82f6
+    );
 
     border: 0;
     border-radius: 10px;
@@ -185,10 +189,14 @@ input[type="submit"] {
     transition:
         transform 0.2s ease,
         filter 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease;
 }
 
-input[type="submit"]:hover {
+/* Hover apenas quando o botão estiver habilitado */
+input[type="submit"]:not(:disabled):hover {
     transform: translateY(-1px);
 
     filter: brightness(1.08);
@@ -197,13 +205,31 @@ input[type="submit"]:hover {
         0 10px 28px rgba(37, 99, 235, 0.38);
 }
 
-input[type="submit"]:active {
+/* Active apenas quando o botão estiver habilitado */
+input[type="submit"]:not(:disabled):active {
     transform: translateY(0);
 }
 
+/* Foco */
 input[type="submit"]:focus-visible {
     outline: 3px solid rgba(96, 165, 250, 0.5);
     outline-offset: 2px;
+}
+
+/* Botão desabilitado */
+input[type="submit"]:disabled {
+    color: #94a3b8;
+
+    background: #334155;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+
+    opacity: 0.7;
+
+    transform: none;
+    filter: none;
 }
 
 /* Tablets e celulares */
@@ -212,7 +238,7 @@ input[type="submit"]:focus-visible {
         padding: 12px;
     }
 
-    :host>div {
+    :host > div {
         padding: 22px 18px;
 
         border-radius: 16px;
@@ -248,7 +274,7 @@ input[type="submit"]:focus-visible {
         padding: 8px;
     }
 
-    :host>div {
+    :host > div {
         padding: 16px 22px;
     }
 
@@ -268,7 +294,7 @@ input[type="submit"]:focus-visible {
         gap: 8px;
     }
 
-    form>div {
+    form > div {
         gap: 4px;
     }
 

@@ -3,44 +3,98 @@
   <h3>Cadastro de clientes</h3>
   <p>Preencha o formulário para incluir um cliente.</p>
 
-  <form>
+  @if(mensagemSucesso()) {
+     <div
+      style="
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        color: #bbf7d0;
+        background: rgba(22, 163, 74, 0.15);
+        border: 1px solid rgba(34, 197, 94, 0.35);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      "
+    >
+    {{ mensagemSucesso() }}
+  </div>
+  }
+  @else if(mensagemErro()) {
+  <div
+      style="
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        color: #fecaca;
+        background: rgba(220, 38, 38, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      "
+    >
+      {{ mensagemErro() }}
+    </div>
+  }
+
+  <form [formGroup]="formCadastro" (ngSubmit)="cadastrarCliente()">
 
     <div>
       <label>Nome do cliente:</label>
-      <input type="text"/>
+      <input type="text" formControlName="nome"/>
+      @if(formCadastro.get('nome')?.touched && formCadastro.get('nome')?.invalid) {
+        <div style="color: red;">
+          O nome do cliente é obrigatório e deve ter pelo menos 6 caracteres.
+        </div>
+      }
     </div>
 
     <div>
       <label>Endereço de email:</label>
-      <input type="text"/>
+      <input type="text" formControlName="email"/>
+      @if(formCadastro.get('email')?.touched && formCadastro.get('email')?.invalid) {
+        <div style="color: red;">
+          O email do cliente é obrigatório e deve ter um endereço de email válido.
+        </div>
+      }
     </div>
 
     <div>
       <label>CPF:</label>
-      <input type="text"/>
+      <input type="text" formControlName="cpf"/>
+      @if(formCadastro.get('cpf')?.touched && formCadastro.get('cpf')?.invalid) {
+        <div style="color: red;">
+          O cpf do cliente é obrigatório e deve ter 11 números.
+        </div>
+      }
     </div>
 
     <div>
-      <label>Selecione o plano</label>
-      
-      <select>
-        
+      <label>Selecione o plano:</label>
+
+      <select formControlName="planoId">
+
         <option value="">Escolha uma opção</option>
-        
+
         @for(p of planos(); track p) {
-          <option value="{{p.id}}">
-            {{p.nome | uppercase}} - {{p.descricao}} - {{p.valorMensal | currency: 'R$'}}
+          <option value="{{ p.id }}">
+            {{ p.nome | uppercase }} - {{ p.descricao }} - {{ p.valorMensal | currency: 'R$ ' }}
           </option>
-        }
+        }      
 
       </select>
-
+      
+      @if(formCadastro.get('planoId')?.touched && formCadastro.get('planoId')?.invalid) {
+        <div style="color: red;">
+          O plano do cliente é obrigatório, por favor selecione uma opção.
+        </div>
+      }
+      
     </div>
 
     <div>
-      <input type="submit" value="Realizar cadastro"/>
-    </div>  
-    
+      <input type="submit" value="Realizar cadastro" [disabled]="formCadastro.invalid"/>
+    </div>
+
   </form>
 
 </div>
