@@ -5,7 +5,13 @@
 
             <!-- Título e subtítulo -->
             <h3 class="text-primary">Sistema de controle de clientes</h3>
-            <p class="text-secondary">Treinamento Java WebDevelope - Formação Fullstack COTI Informática</p>
+            <p class="text-secondary">Desenvolvido por Paulo Dutra</p>
+
+            <div class="mb-3">
+                <button class="btn btn-sm shadow btn-success" data-bs-toggle="modal" data-bs-target="#cadastroCliente">
+                    Adicionar cliente
+                </button>
+            </div>
 
             <!-- Tabela para exibir os dados obtidos da API -->
             <table class="table table-sm table-hover">
@@ -25,6 +31,17 @@
                             <td>{{ c.cpf }}</td>
                             <td>{{ c.email }}</td>
                             <td>{{ c.telefone }}</td>
+                            <td>
+                                <button class="btn btn-sm shadow btn-primary me-1"
+                                    (click)="obterCliente(c.id)"
+                                    data-bs-toggle="modal" data-bs-target="#edicaoCliente">
+                                    Editar
+                                </button>
+                                <button (click)="excluirCliente(c.id)"
+                                    class="btn btn-sm shadow btn-danger">
+                                    Excluir
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -39,4 +56,167 @@
 
         </div>
     </div>    
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="cadastroCliente" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Cadastro de clientes</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+            <!-- Formulário de cadastro de clientes -->
+            <form [formGroup]="formCadastro" (ngSubmit)="cadastrarCliente()">
+
+                <div class="mb-3">
+                    <label>Nome do cliente:</label>
+                    <input type="text" class="form-control" formControlName="nome"
+                        placeholder="Digite o nome do cliente">
+                    
+                    @if(formCadastro.get('nome')?.touched && formCadastro.get('nome')?.invalid) {
+                        <div class="text-danger">
+                            O nome do cliente é obrigatório e deve ter pelo menos 6 caracteres.
+                        </div>
+                    }
+
+                </div>   
+                
+                <div class="mb-3">
+                    <label>Email:</label>
+                    <input type="text" class="form-control" formControlName="email"
+                        placeholder="Digite o email do cliente">
+
+                    @if(formCadastro.get('email')?.touched && formCadastro.get('email')?.invalid) {
+                        <div class="text-danger">
+                            O email do cliente é obrigatório e deve conter um endereço de email válido.
+                        </div>
+                    }
+
+                </div>   
+
+                <div class="mb-3">
+                    <label>CPF:</label>
+                    <input type="text" class="form-control" formControlName="cpf"
+                        placeholder="Digite o cpf do cliente">
+
+                    @if(formCadastro.get('cpf')?.touched && formCadastro.get('cpf')?.invalid) {
+                        <div class="text-danger">
+                            O cpf do cliente é obrigatório e deve conter exatamente 11 números. Ex: 12345678900
+                        </div>
+                    }
+
+                </div>   
+
+                <div class="mb-3">
+                    <label>Telefone:</label>
+                    <input type="text" class="form-control" formControlName="telefone"
+                        placeholder="Digite o telefone do cliente">
+
+                    @if(formCadastro.get('telefone')?.touched && formCadastro.get('telefone')?.invalid) {
+                        <div class="text-danger">
+                            O telefone do cliente é obrigatório e deve conter exatamente 11 números. Ex: 21999990000
+                        </div>
+                    }
+                
+                </div>   
+
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-success shadow" 
+                        [disabled]="formCadastro.invalid"
+                        type="submit">
+                        Realizar cadastro
+                    </button>
+                </div>
+
+            </form> 
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="edicaoCliente" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Edição de clientes</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+            <!-- Formulário de cadastro de clientes -->
+            <form [formGroup]="formEdicao" (ngSubmit)="atualizarCliente()">
+
+                <!-- Campo oculto para guardar o id do cliente -->
+                <input type="hidden" formControlName="id"/>
+
+                <div class="mb-3">
+                    <label>Nome do cliente:</label>
+                    <input type="text" class="form-control" formControlName="nome"
+                        placeholder="Digite o nome do cliente">
+                    
+                    @if(formEdicao.get('nome')?.touched && formEdicao.get('nome')?.invalid) {
+                        <div class="text-danger">
+                            O nome do cliente é obrigatório e deve ter pelo menos 6 caracteres.
+                        </div>
+                    }
+
+                </div>   
+                
+                <div class="mb-3">
+                    <label>Email:</label>
+                    <input type="text" class="form-control" formControlName="email"
+                        placeholder="Digite o email do cliente">
+
+                    @if(formEdicao.get('email')?.touched && formEdicao.get('email')?.invalid) {
+                        <div class="text-danger">
+                            O email do cliente é obrigatório e deve conter um endereço de email válido.
+                        </div>
+                    }
+
+                </div>   
+
+                <div class="mb-3">
+                    <label>CPF:</label>
+                    <input type="text" class="form-control" formControlName="cpf"
+                        placeholder="Digite o cpf do cliente">
+
+                    @if(formEdicao.get('cpf')?.touched && formEdicao.get('cpf')?.invalid) {
+                        <div class="text-danger">
+                            O cpf do cliente é obrigatório e deve conter exatamente 11 números. Ex: 12345678900
+                        </div>
+                    }
+
+                </div>   
+
+                <div class="mb-3">
+                    <label>Telefone:</label>
+                    <input type="text" class="form-control" formControlName="telefone"
+                        placeholder="Digite o telefone do cliente">
+
+                    @if(formEdicao.get('telefone')?.touched && formEdicao.get('telefone')?.invalid) {
+                        <div class="text-danger">
+                            O telefone do cliente é obrigatório e deve conter exatamente 11 números. Ex: 21999990000
+                        </div>
+                    }
+                
+                </div>   
+
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-primary shadow" 
+                        [disabled]="formEdicao.invalid"
+                        type="submit">
+                        Salvar alterações
+                    </button>
+                </div>
+
+            </form> 
+
+      </div>
+    </div>
+  </div>
 </div>
